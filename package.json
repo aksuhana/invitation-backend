@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/aksuhana/invitation-backend/issues"
   },
-  "homepage": "https://github.com/aksuhana/invitation-backend#readme"
+  "homepage": "https://github.com/aksuhana/invitation-backend#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
