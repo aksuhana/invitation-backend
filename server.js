@@ -86,6 +86,24 @@ app.delete("/api/deleteUser/:id", async (req,res)=>{
     res.send("No Such User Found")
 })
 
+app.patch("/api/amountUpdate/:id", async (req,res)=>{
+    console.log("myUpdate Called");
+    const { id } = req.params;
+    console.log( req.body);
+    const updatedUser = await userTable.findByIdAndUpdate(id,req.body);
+    console.log(updatedUser);
+    if(updatedUser)
+    {
+        req.method="GET";
+        res.redirect(303, '/api/fetchUser')
+    }
+    else{
+        res.status(404).json({
+            "message": "failed",
+            "reason": "something went wrong"
+        })
+    }
+})
 app.patch("/api/updateUser/:id", async (req,res)=>{
     const { id } = req.params;
     const { name, address, amount, mobile, gift} = req.body;
