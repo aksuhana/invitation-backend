@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const pplSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, "this field is required"]
+        required: [true, "This Field is Required"]
     },
     amount: {
         type: Number
@@ -10,12 +10,12 @@ const pplSchema = new mongoose.Schema({
     address:{
         type: String
     },
-    gift: [String],
+    gift: String,
     mobile:{
         type: Number
     }
 });
 
 
-let Pplmodel = mongoose.model('Pplmodel',pplSchema);
-module.exports('Pplmodel');
+const userTable = mongoose.model('userTable',userSchema);
+module.exports = userTable;

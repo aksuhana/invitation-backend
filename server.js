@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const Tablew = require("./models/good")
-mongoose.connect('mongodb://localhost:27017/invitation', 
+const userTable = require("./models/user")
+mongoose.connect('mongodb://localhost:27017/userData', 
     {   useNewUrlParser: true,
         useCreateIndex: true,
         useUnifiedTopology: true,
@@ -12,16 +12,21 @@ mongoose.connect('mongodb://localhost:27017/invitation',
         console.log("CONNECTION OPEN !!!")
     })
     .catch(err => {
-        console.log("OH NO ERROR!!!!");
+        console.log("ERROR While Connecting!!!!");
         console.log(err);
     })
 
 const seedUsers = [
-    { username: 'Todd', email: 'todd@gmail.com', gender: 'Male'}, 
-    { username: 'Skini', email: 'sk123@gmail.com', gender: 'Female'}
-]
+    { name: 'Ankit Jain', amount: 0, address: 'Africa', mobile: 9996699990, gift: 'Black Mamba' },
+    { name: 'Shaurya Khandelwal', amount: 2000, address: 'USA', mobile: 9944449999, gift: '' },
+    { name: 'Malini Tripathi', amount: 300, address: 'Australia', mobile: 9023459999, gift: 'Kangaroo' },
+    { name: 'Aditya Surana', amount: 4000, address: 'Rajasthan', mobile: 9588838654, gift: 'Bugatti Chiron' },
+    { name: 'Aakriti Yadav', amount: 5000, address: 'Agra', mobile: 9012640934, gift: 'Taj Mahal' },
+    { name: 'Sahil Subhnani', amount: 10000, address: 'Jaipur', mobile: 9092475398, gift: 'Kohinoor' }
+];
 
-Tablew.insertMany(seedUsers)
+
+userTable.insertMany(seedUsers)
     .then(res => {
         console.log("Records Added");
     })
@@ -32,7 +37,6 @@ Tablew.insertMany(seedUsers)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(function (req, res, next) {
-    //Enabling CORS
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT, PATCH, DELETE");
@@ -43,21 +47,21 @@ app.use(function (req, res, next) {
 app.get('',(req,res)=>{
     res.send("server working");
 })
-app.get('/fetch', async (req,res)=>{
-    const data = await Tablew.find({});
+app.get('/api/fetchUser', async (req,res)=>{
+    const data = await userTable.find({});
     console.log(data);
     res.json(data);
 })
 
-app.post("/send", (req,res)=>{
-    const {username, email, gender} = req.body;
+app.post("/api/send", (req,res)=>{
+    const {name, address, mobile} = req.body;
     let record = {
-        username: username,
-        email: email,
-        gender: gender
+        name: name,
+        address: address,
+        mobile: mobile
     }
     console.log(record);
-    let item = new Tablew(record);
+    let item = new userTable(record);
     item.save(function(err,result){
         if (err){
             console.log(err);
@@ -66,29 +70,29 @@ app.post("/send", (req,res)=>{
             console.log(result)
         }
     })
-    res.redirect("/fetch");
+    res.redirect("/api/fetchUser");
     // res.send("ok")
 })
 
-app.delete("/delete/:id", async (req,res)=>{
+app.delete("/api/deleteUser/:id", async (req,res)=>{
     const{ id } = req.params;
-    const deleteData = await Tablew.findByIdAndDelete(id);
+    const deleteData = await userTable.findByIdAndDelete(id);
     if(deleteData)
     {
         req.method = "GET";
-        res.redirect(303,'/fetch');
+        res.redirect(303,'/api/fetch');
     }
     else
-    res.send("no such item found")
+    res.send("No Such User Found")
 })
 
-app.patch("/update/:id", async (req,res)=>{
+app.patch("/api/updateUser/:id", async (req,res)=>{
     const { id } = req.params;
-    const { email, username } = req.body;
-    console.log(id, email, username)
-    await Tablew.findByIdAndUpdate(id,{email:email, username:username});
+    const { name, address, amount, mobile, gift} = req.body;
+    console.log(name, address, amount, mobile, gift)
+    await userTable.findByIdAndUpdate(id,{email:email, username:username});
     req.method ="GET";
-    res.redirect(303, '/fetch')
+    res.redirect(303, '/api/fetchUser')
 })
 
 app.listen(3000,()=>{
