@@ -80,7 +80,7 @@ app.delete("/api/deleteUser/:id", async (req,res)=>{
     if(deleteData)
     {
         req.method = "GET";
-        res.redirect(303,'/api/fetch');
+        res.redirect(303,'/api/fetchUser');
     }
     else
     res.send("No Such User Found")
@@ -90,7 +90,7 @@ app.patch("/api/updateUser/:id", async (req,res)=>{
     const { id } = req.params;
     const { name, address, amount, mobile, gift} = req.body;
     console.log(name, address, amount, mobile, gift)
-    await userTable.findByIdAndUpdate(id,{email:email, username:username});
+    await userTable.findByIdAndUpdate(id,{name:name, address:address, amount:amount, mobile:mobile, gift:gift});
     req.method ="GET";
     res.redirect(303, '/api/fetchUser')
 })
