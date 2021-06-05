@@ -49,7 +49,7 @@ app.get('',(req,res)=>{
 })
 app.get('/api/fetchUser', async (req,res)=>{
     const data = await userTable.find({});
-    console.log(data);
+    // console.log(data);
     res.json(data);
 })
 
@@ -89,20 +89,10 @@ app.delete("/api/deleteUser/:id", async (req,res)=>{
 app.patch("/api/amountUpdate/:id", async (req,res)=>{
     console.log("myUpdate Called");
     const { id } = req.params;
-    console.log( req.body);
+    const {amount, gift} =req.body;
     const updatedUser = await userTable.findByIdAndUpdate(id,req.body);
     console.log(updatedUser);
-    if(updatedUser)
-    {
-        req.method="GET";
-        res.redirect(303, '/api/fetchUser')
-    }
-    else{
-        res.status(404).json({
-            "message": "failed",
-            "reason": "something went wrong"
-        })
-    }
+    res.send("Transaction Sucess")
 })
 app.patch("/api/updateUser/:id", async (req,res)=>{
     const { id } = req.params;
