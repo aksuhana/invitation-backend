@@ -1,5 +1,5 @@
 {
-  "name": "Project-Backend",
+  "name": "invitaion-backend",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/aksuhana/invitation-backend#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.12.13"
   }
 }
