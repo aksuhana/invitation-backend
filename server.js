@@ -47,6 +47,16 @@ app.use(function (req, res, next) {
 app.get('',(req,res)=>{
     res.send("server working");
 })
+app.get('/api/userById/:id', async(req,res)=>{
+    let id = req.params.id;
+    const user = await userTable.findById(id)
+    res.json({
+        "name": user.name,
+        "amount": user.amount,
+        "address" : user.address,
+        "mobile": user.mobile,
+    })
+})
 app.get('/api/fetchUser', async (req,res)=>{
     const data = await userTable.find({});
     // console.log(data);
@@ -92,7 +102,7 @@ app.patch("/api/amountUpdate/:id", async (req,res)=>{
     const {amount, gift} =req.body;
     const updatedUser = await userTable.findByIdAndUpdate(id,req.body);
     console.log(updatedUser);
-    res.send("Transaction Sucess")
+    res.send("ok")
 })
 app.patch("/api/updateUser/:id", async (req,res)=>{
     const { id } = req.params;
