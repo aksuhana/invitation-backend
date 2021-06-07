@@ -102,7 +102,9 @@ app.patch("/api/amountUpdate/:id", async (req,res)=>{
     const {amount, gift} =req.body;
     const updatedUser = await userTable.findByIdAndUpdate(id,req.body);
     console.log(updatedUser);
-    res.send("ok")
+    res.json({
+        "message": "query success updated user successfully"
+    });
 })
 app.patch("/api/updateUser/:id", async (req,res)=>{
     const { id } = req.params;
