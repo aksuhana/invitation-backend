@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const userTable = require("./models/user")
+const invitationController = require('./Controller/invitationController')
+const path = require('path');
 mongoose.connect('mongodb://localhost:27017/userData', 
     {   useNewUrlParser: true,
         useCreateIndex: true,
@@ -34,6 +36,11 @@ userTable.insertMany(seedUsers)
         console.log(e)
     })
 
+
+app.set('view engine','ejs');
+
+app.set('views', path.join(__dirname, "/views/"));
+app.use(express.static('static'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(function (req, res, next) {
@@ -106,6 +113,7 @@ app.patch("/api/amountUpdate/:id", async (req,res)=>{
         "message": "query success updated user successfully"
     });
 })
+
 app.patch("/api/updateUser/:id", async (req,res)=>{
     const { id } = req.params;
     const { name, address, amount, mobile, gift} = req.body;
@@ -114,6 +122,7 @@ app.patch("/api/updateUser/:id", async (req,res)=>{
     req.method ="GET";
     res.redirect(303, '/api/fetchUser')
 })
+app.use('/invitation',invitationController);
 
 app.listen(3000,()=>{
     console.log('listening to port http://localhost:3000')
