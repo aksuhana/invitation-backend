@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const userTable = require("./models/user")
-const invitationController = require('./Controller/invitationController')
+const exphbs = require('express-handlebars');
+const employeeController = require('./controllers/employeeController');
+
 const path = require('path');
 mongoose.connect('mongodb://localhost:27017/userData', 
     {   useNewUrlParser: true,
@@ -18,28 +20,13 @@ mongoose.connect('mongodb://localhost:27017/userData',
         console.log(err);
     })
 
-const seedUsers = [
-    { name: 'Ankit Jain', amount: 0, address: 'Africa', mobile: 9996699990, gift: 'Black Mamba' },
-    { name: 'Shaurya Khandelwal', amount: 2000, address: 'USA', mobile: 9944449999, gift: '' },
-    { name: 'Malini Tripathi', amount: 300, address: 'Australia', mobile: 9023459999, gift: 'Kangaroo' },
-    { name: 'Aditya Surana', amount: 4000, address: 'Rajasthan', mobile: 9588838654, gift: 'Bugatti Chiron' },
-    { name: 'Aakriti Yadav', amount: 5000, address: 'Agra', mobile: 9012640934, gift: 'Taj Mahal' },
-    { name: 'Sahil Subhnani', amount: 10000, address: 'Jaipur', mobile: 9092475398, gift: 'Kohinoor' }
-];
 
 
-userTable.insertMany(seedUsers)
-    .then(res => {
-        console.log("Records Added");
-    })
-    .catch(e => {
-        console.log(e)
-    })
+    app.set('views', path.join(__dirname, '/views/'));
+    app.engine('hbs', exphbs({ extname: 'hbs', defaultLayout: 'mainLayout', layoutsDir: __dirname + '/views/layouts/' }));
+    app.set('view engine', 'hbs');
+    
 
-
-app.set('view engine','ejs');
-
-app.set('views', path.join(__dirname, "/views/"));
 app.use(express.static('static'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -122,8 +109,9 @@ app.patch("/api/updateUser/:id", async (req,res)=>{
     req.method ="GET";
     res.redirect(303, '/api/fetchUser')
 })
-app.use('/invitation',invitationController);
+
 
 app.listen(3000,()=>{
     console.log('listening to port http://localhost:3000')
 })
+app.use('/employee', employeeController);
