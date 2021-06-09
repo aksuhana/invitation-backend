@@ -6,8 +6,9 @@ const exphbs = require('express-handlebars');
 const employeeController = require('./controllers/employeeController');
 
 const path = require('path');
-mongoose.connect('mongodb://localhost:27017/userData', 
-    {   useNewUrlParser: true,
+mongoose.connect('mongodb://localhost:27017/userData',
+    {
+        useNewUrlParser: true,
         useCreateIndex: true,
         useUnifiedTopology: true,
         useFindAndModify: false
@@ -22,10 +23,10 @@ mongoose.connect('mongodb://localhost:27017/userData',
 
 
 
-    app.set('views', path.join(__dirname, '/views/'));
-    app.engine('hbs', exphbs({ extname: 'hbs', defaultLayout: 'mainLayout', layoutsDir: __dirname + '/views/layouts/' }));
-    app.set('view engine', 'hbs');
-    
+app.set('views', path.join(__dirname, '/views/'));
+app.engine('hbs', exphbs({ extname: 'hbs', defaultLayout: 'mainLayout', layoutsDir: __dirname + '/views/layouts/' }));
+app.set('view engine', 'hbs');
+
 
 app.use(express.static('static'))
 app.use(express.json())
@@ -35,43 +36,44 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT, PATCH, DELETE");
     next();
-    });
+});
 
 
-app.get('',(req,res)=>{
+app.get('', (req, res) => {
     res.send("server working");
 })
-app.get('/api/userById/:id', async(req,res)=>{
+app.get('/api/userById/:id', async (req, res) => {
     let id = req.params.id;
     const user = await userTable.findById(id)
     res.json({
         "name": user.name,
         "amount": user.amount,
-        "address" : user.address,
+        "address": user.address,
         "mobile": user.mobile,
-        "hindiName" : user.hindiName
+        "hindiName": user.hindiName
     })
 })
-app.get('/api/fetchUser', async (req,res)=>{
+app.get('/api/fetchUser', async (req, res) => {
     const data = await userTable.find({});
     // console.log(data);
     res.json(data);
 })
 
-app.post("/api/send", (req,res)=>{
-    const {name, address, mobile} = req.body;
+app.post("/api/send", (req, res) => {
+    const { name, address, mobile, hindiName } = req.body;
     let record = {
         name: name,
         address: address,
-        mobile: mobile
+        mobile: mobile,
+        hindiName: hindiName
     }
     console.log(record);
     let item = new userTable(record);
-    item.save(function(err,result){
-        if (err){
+    item.save(function (err, result) {
+        if (err) {
             console.log(err);
         }
-        else{
+        else {
             console.log(result)
         }
     })
@@ -79,40 +81,39 @@ app.post("/api/send", (req,res)=>{
     // res.send("ok")
 })
 
-app.delete("/api/deleteUser/:id", async (req,res)=>{
-    const{ id } = req.params;
+app.delete("/api/deleteUser/:id", async (req, res) => {
+    const { id } = req.params;
     const deleteData = await userTable.findByIdAndDelete(id);
-    if(deleteData)
-    {
+    if (deleteData) {
         req.method = "GET";
-        res.redirect(303,'/api/fetchUser');
+        res.redirect(303, '/api/fetchUser');
     }
     else
-    res.send("No Such User Found")
+        res.send("No Such User Found")
 })
 
-app.patch("/api/amountUpdate/:id", async (req,res)=>{
+app.patch("/api/amountUpdate/:id", async (req, res) => {
     console.log("myUpdate Called");
     const { id } = req.params;
-    const {amount, gift} =req.body;
-    const updatedUser = await userTable.findByIdAndUpdate(id,req.body);
+    const { amount, gift } = req.body;
+    const updatedUser = await userTable.findByIdAndUpdate(id, req.body);
     console.log(updatedUser);
     res.json({
         "message": "query success updated user successfully"
     });
 })
 
-app.patch("/api/updateUser/:id", async (req,res)=>{
+app.patch("/api/updateUser/:id", async (req, res) => {
     const { id } = req.params;
-    const { name, address, amount, mobile, gift} = req.body;
+    const { name, address, amount, mobile, gift } = req.body;
     console.log(name, address, amount, mobile, gift)
-    await userTable.findByIdAndUpdate(id,{name:name, address:address, amount:amount, mobile:mobile, gift:gift});
-    req.method ="GET";
+    await userTable.findByIdAndUpdate(id, { name: name, address: address, amount: amount, mobile: mobile, gift: gift });
+    req.method = "GET";
     res.redirect(303, '/api/fetchUser')
 })
 
 
-app.listen(3000,()=>{
+app.listen(3000, () => {
     console.log('listening to port http://localhost:3000')
 })
 app.use('/employee', employeeController);
