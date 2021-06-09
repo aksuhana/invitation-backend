@@ -6,7 +6,7 @@ const userTable = require('../models/user.js');
 
 router.get('/', (req, res) => {
     res.render("user/addOrEdit", {
-        viewTitle: "Insert Employee"
+        viewTitle: "Insert USER"
     });
 });
 
