@@ -13,6 +13,9 @@ const userSchema = new mongoose.Schema({
     gift: String,
     mobile:{
         type: Number
+    },
+    hindiName: {
+        type: String
     }
 });
 

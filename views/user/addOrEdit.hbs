@@ -1,7 +1,7 @@
 <h3>{{viewTitle}}</h3>
 
 <form action="/employee" method="POST" autocomplete="off">
-    <input type="hidden" name="_id" value="{{user._id}}">
+    <input type="hidden" name="_id" value="{{ user._id }}">
     <div class="form-group">
         <label>Full Name</label>
         <input type="text" class="form-control" name="name" placeholder="Full Name" value="{{user.name}}">
@@ -17,7 +17,7 @@
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Mobile</label>
-            <input type="number" class="form-control" name="mobile" placeholder="Mobile" value="{{user.mobile}}">
+            <input type="number" class="form-control" name="mobile" placeholder="Mobile" value="{{ user.mobile }}">
         </div>
         <div class="form-group col-md-6">
             <label>Amount</label>
@@ -30,6 +30,15 @@
         <div class="text-danger">
             {{user.giftError}}</div>
     </div>
+    <div class="form-group">
+        <label>hindi Name</label>
+        <input type="text" class="form-control" name="hindiName" placeholder="Hindi name here" value="{{user.hindiName}}"style = "font-family:  font-family: 'Poppins', sans-serif; border: 2px solid red; color:red;">
+        <div class="text-danger" >
+            {{user.fullNameError}}</div>
+    </div>
+
+
+
     <div class="form-group">
         <button type="submit" class="btn btn-info"><i class="fa fa-database"></i> Submit</button>
         <a class="btn btn-secondary" href="/employee/list"><i class="fa fa-list-alt"></i> View All</a>
