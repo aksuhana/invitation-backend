@@ -61,7 +61,7 @@ app.get('/api/fetchUser', async (req, res) => {
 })
 
 app.post("/api/send", (req, res) => {
-    const { name, address, mobile, hindiName } = req.body;
+    const { name, address, mobile, hindiName, hindiAddress } = req.body;
     let record = {
         name: name,
         address: address,
