@@ -66,7 +66,8 @@ app.post("/api/send", (req, res) => {
         name: name,
         address: address,
         mobile: mobile,
-        hindiName: hindiName
+        hindiName: hindiName,
+        hindiAddress: hindiAddress
     }
     console.log(record);
     let item = new userTable(record);
