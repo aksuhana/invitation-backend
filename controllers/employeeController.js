@@ -19,14 +19,15 @@ router.post('/', (req, res) => {
 
 
 function insertRecord(req, res) {
-    const {name, address, mobile,amount, gift, hindiName} = req.body;
+    const {name, address, mobile,amount, gift, hindiName,hindiAddress} = req.body;
     let record = {
         name: name,
         address: address,
         mobile: mobile,
         amount:amount,
         gift: gift,
-        hindiName:hindiName
+        hindiName:hindiName,
+        hindiAddress: hindiAddress
     }
     console.log(record);
     let item = new userTable(record);

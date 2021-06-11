@@ -16,6 +16,9 @@ const userSchema = new mongoose.Schema({
     },
     hindiName: {
         type: String
+    },
+    hindiAddress:{
+        type: String
     }
 });
 

@@ -1,13 +1,14 @@
-<h3><a class="btn btn-secondary" href="/employee"><i class="fa fa-plus"></i> Create New</a> Employee List</h3>
+<h3><a class="btn btn-secondary" href="/employee"><i class="fa fa-plus"></i> Create New</a> Users List</h3>
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Name</th>
             <th>Address</th>
             <th>Mobile</th>
-            <th>Amount</th>
+            <th style ="width: 100px;">Amount</th>
             <th>Gift</th>
             <th>Hindi Name</th>
+            <th>Hindi Address</th>
             <th></th>
         </tr>
     </thead>
@@ -17,9 +18,11 @@
             <td>{{this.name}}</td>
             <td>{{this.address}}</td>
             <td>{{this.mobile}}</td>
-            <td>{{this.amount}}</td>
-            <th>{{this.gift}}</th>
-            <th>{{this.hindiName}}</th>
+            <td>&#8377; {{this.amount}}</td>
+            <td>{{this.gift}}</td>
+            <td>{{this.hindiName}}</td>
+            <td>{{this.hindiAddress}}</td>
+
             <td>
                 <a href="/employee/{{this._id}}"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
                 <a href="/employee/delete/{{this._id}}" onclick="return confirm('Are you sure to delete this record ?');"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a>
