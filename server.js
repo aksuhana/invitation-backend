@@ -50,7 +50,8 @@ app.get('/api/userById/:id', async (req, res) => {
         "amount": user.amount,
         "address": user.address,
         "mobile": user.mobile,
-        "hindiName": user.hindiName
+        "hindiName": user.hindiName,
+        "hindiAddress": user.hindiAddress
     })
 })
 app.get('/api/fetchUser', async (req, res) => {
